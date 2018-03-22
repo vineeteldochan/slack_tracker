@@ -1,0 +1,23 @@
+{
+  "name": "slack_data_proc",
+  "version": "1.0.0",
+  "description": "Process to collect and process slack api data",
+  "main": "app.js",
+  "dependencies": {
+    "async": "^2.6.0",
+    "chokidar": "^2.0.2",
+    "mongodb": "^3.0.4",
+    "request": "^2.85.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "slack",
+    "api",
+    "mongodb"
+  ],
+  "author": "Vineet Eldochan",
+  "license": "ISC"
+}
