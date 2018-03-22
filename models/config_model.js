@@ -16,7 +16,7 @@ exports.config = function(callback){
   if((exports.slack_access_token||"") == ""){
      return callback("Please assign the slack key");
   }
-  exports.slack_interval = 60000;
+  exports.slack_interval = 3600000;
 
   //Max count = 100
   exports.slack_count = 100;
