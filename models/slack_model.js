@@ -23,15 +23,37 @@ exports.SlackResourceGet = function(Obj,callback){
 
   var puri = API_HOST;
   var flg = 0;
+  var method = "GET"
 
   // Generating the url based on the parameter passed.
   if(Obj.type == "team.accessLogs"){
+    method = "GET";
     puri = puri+Obj.type;
-    puri = puri+"?token="+config_model.slack_access_token
     if(Obj.count > ""){
       if(Obj.count < 101){
-          puri = puri+"&count="+Obj.count;
+          puri = puri+"?count="+Obj.count;
       }
+    }
+  }else if(Obj.type== "users.profile.get"){
+    method = "GET";
+    puri = puri+Obj.type;
+  }else if(Obj.type == "users.profile.set"){
+    method = "POST";
+    puri = puri+Obj.type;
+    if(Obj.data > ""){
+        puri = puri+"?profile="+encodeURIComponent(JSON.stringify(Obj.data));
+    }
+  }else if(Obj.type== "users.getPresence"){
+    method = "GET";
+    puri = puri+Obj.type;
+    if(Obj.userid > ""){
+      puri = puri+"?user="+Obj.userid
+    }
+  }else if(Obj.type == "users.setPresence"){
+    method = "POST";
+    puri = puri+Obj.type;
+    if(Obj.presence > ""){
+        puri = puri+"?presence="+Obj.presence;
     }
   }else{
     // In case there are errors in the parameters a flag is raised.
@@ -39,6 +61,14 @@ exports.SlackResourceGet = function(Obj,callback){
   }
 
   if(flg == 0){
+    //Setting user access token
+    if(config_model.slack_access_token > ""){
+      if(puri.indexOf("?") == -1){
+          puri = puri+"?token="+config_model.slack_access_token
+      }else{
+          puri = puri+"&token="+config_model.slack_access_token
+      }
+    }
 
     var filedat = [];
     //Function would repeat to get data from all pages. Can modify this to make the first call in series and the rest of the pages in parallel.
@@ -48,7 +78,7 @@ exports.SlackResourceGet = function(Obj,callback){
         uri = puri+"&page="+pObj.page;
       }
 
-      request.get({url: uri, method: 'GET', headers: header}, function(err,resp,body){
+      request({url: uri, method: method, headers: header}, function(err,resp,body){
         if(err){
           // Can consider repeating on errors.
           console.log("slack_model: Error: "+JSON.stringify(err));
@@ -101,7 +131,7 @@ exports.SlackResourceGet = function(Obj,callback){
     repeat_req({page:0},function(err,res){
       // Writing to file with a datetimestamp.
       if(filedat.length > 0){
-        var filename= Math.round((new Date()/1000))+'.json';
+        var filename= Math.round((new Date()/1))+'.json';
         fs.writeFile('./results/'+filename, JSON.stringify(filedat),function(err){
           if(err){
             console.log("File write failed");
@@ -110,6 +140,8 @@ exports.SlackResourceGet = function(Obj,callback){
           }
           callback(err,res);
         })
+      }else{
+        callback(err,res);
       }
     })
   }else{

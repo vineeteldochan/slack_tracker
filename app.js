@@ -46,6 +46,9 @@ async.waterfall([
 
     //For ease, have included the watcher scripts initiation here. We can keep it separate and initiate it using cron or service or anything like it.
     var fp = cp.fork(`${__dirname}/scripts/watcher_script.js`)
+
+    //For ease, have included the app_service initiation here. We can keep it separate and initiate it using cron or service or anything like it.
+    var fp = cp.fork(`${__dirname}/app_service.js`)
   }
 ],function(err){
   //The script would keep looping unless an error occurs.
