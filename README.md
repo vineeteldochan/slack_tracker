@@ -1,6 +1,6 @@
 __**Slack Tracker**__
 
-Calls Slack API's Team Accesslogs and updates/inserts the rows into Mongo DB
+Calls/Receives Slack API's Team Accesslogs, Events API and Presence API and updates/inserts the rows into Mongo DB
 
 ---
 
