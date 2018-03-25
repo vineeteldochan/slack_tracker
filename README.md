@@ -2,6 +2,8 @@ __**Slack Tracker**__
 
 Calls Slack API's Team Accesslogs and updates/inserts the rows into Mongo DB
 
+---
+
 __Dependencies__:
 
 "async": "^2.6.0",
@@ -9,6 +11,7 @@ __Dependencies__:
 "mongodb": "^3.0.4",
 "request": "^2.85.0"
 
+---
 
 __**Method: GET**__
 
@@ -18,6 +21,7 @@ __**Method: GET**__
 
 /slack/presence_get/user/:userid := Get Presence of another user
 
+---
 
 
 __**Method: POST**__
